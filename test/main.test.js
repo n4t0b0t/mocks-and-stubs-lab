@@ -4,7 +4,6 @@ const paymentService = require("../src/paymentService");
 
 beforeEach(() => {
   jest.resetAllMocks();
-  jest.clearAllMocks();
 });
 
 jest.mock("../src/queueService");
@@ -13,14 +12,14 @@ const refundPaymentSpy = jest.spyOn(paymentService, "refundPayment");
 
 test("does not call makePayment or refundPayment when paymentQueue is empty", () => {
   generateQueue.mockImplementation(() => []);
-  const paymentResults = processPayments();
+  let paymentResults = processPayments();
   expect(makePaymentSpy).toHaveBeenCalledTimes(0);
   expect(refundPaymentSpy).toHaveBeenCalledTimes(0);
 });
 
 test("calls makePayment when next item in paymentQueue is positive", () => {
   generateQueue.mockImplementation(() => [10]);
-  const paymentResults = processPayments();
+  let paymentResults = processPayments();
   expect(makePaymentSpy).toHaveBeenCalledTimes(1);
   expect(refundPaymentSpy).toHaveBeenCalledTimes(0);
 });
